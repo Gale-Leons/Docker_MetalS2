@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.swp
+*.egg-info/
+*.eggs/
+*.log
+*.sqlite3
+
+# Virtualenv
+venv/
+.env/
+
+# Docker
+*.tar
+*.log
+*.env
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
