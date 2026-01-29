@@ -26,7 +26,17 @@ ignore = [
 [tool.pyright]
 typeCheckingMode = "strict"
 pythonVersion= "3.12"
-exclude= [".venv"]
+
+# BioPython è dinamico → non rompermi
+reportUnknownMemberType = false
+reportUnknownVariableType = false
+reportUnknownArgumentType = false
+
+# questi invece li vogliamo
+reportMissingImports = true
+reportMissingTypeStubs = false
+
+exclude= [".venv", "**/site-packages"]
 
 [tool.pyright.report]
 reportUnkownMemberType = false
