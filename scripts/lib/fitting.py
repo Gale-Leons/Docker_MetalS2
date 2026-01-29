@@ -2,7 +2,7 @@ from numpy import dot, transpose
 from numpy.linalg import det, svd
 
 
-class Fitting(object):
+class Fitting:
     def __init__(self):
         self._clear()
 

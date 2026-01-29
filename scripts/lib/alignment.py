@@ -1,9 +1,6 @@
-# -*- coding: utf-8 -*-
-
 from operator import attrgetter
 
 import numpy
-
 from lib.fitting import Fitting
 from lib.matching import matchAtoms
 from lib.metalSite import MetalSite, copySite, getCoordinatesOfAtomsInList

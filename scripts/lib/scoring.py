@@ -1,15 +1,13 @@
 #!/usr/bin/env python2.6
-# -*- coding: utf-8 -*-
 
 import numpy
-
 from lib.atom import atomIsFromBackbone, atomIsFromProtein
 from lib.matching import matchAtoms
 from lib.nomenclature import nonStandardAminoAcids, scoringMatrixBlosum62
 from lib.sequence import penalizeSequence
 
 
-class Scoring(object):
+class Scoring:
     def __init__(self, site1, site2, maxDist, mode):
         self.maxDist = maxDist
         self.maxS = self.getMaxSequenceScore(site1, site2, mode)

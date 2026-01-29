@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 import getopt
 import math
@@ -256,5 +255,5 @@ def opened(fileName):
         f = open(fileName)
         f.close()
         return True
-    except IOError:
+    except OSError:
         return False

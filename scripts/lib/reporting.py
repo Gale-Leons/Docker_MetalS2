@@ -1,5 +1,4 @@
 #!/usr/bin/env python2.6
-# -*- coding: utf-8 -*-
 
 import os
 import sys
@@ -12,15 +11,13 @@ from collections import defaultdict
 from operator import attrgetter
 
 import numpy as np
-from Bio.PDB import PDBIO
+from Bio.PDB import PDBIO, Chain, Model, Residue, Structure
 from Bio.PDB import Atom as BioAtom
-from Bio.PDB import Chain, Model, Residue, Structure
-
 from lib.nomenclature import metalList
 from lib.sequence import writeSequenceToFile
 
 
-class ScoreReport(object):
+class ScoreReport:
     "Collection of data for a score reports"
 
     def __init__(self, site1, site2):

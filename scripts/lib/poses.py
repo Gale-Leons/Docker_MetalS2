@@ -3,7 +3,7 @@
 # ===============================================================================
 
 
-class Pose(object):
+class Pose:
     def __init__(self):
         self.rotationMatrix = None
         self.pattern1 = None

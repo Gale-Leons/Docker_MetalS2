@@ -1,12 +1,10 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 import math
 
 import numpy
-from scipy.spatial import cKDTree
-
 from lib.atom import bothAtomsAreFromSameMolecule  # atomIsFromBackbone,
+from scipy.spatial import cKDTree
 
 
 def matchAtoms(site1, site2, maxDist):
@@ -21,9 +19,13 @@ def matchAtoms(site1, site2, maxDist):
     backbone2 = site2.backboneDonors.copy()
     sidechain2 = site2.sideChainDonors.copy()
 
-    donors_pairs, res_backbone1, res_sidechain1, res_backbone2, res_sidechain2 = (
-        getNearestNeighborsInPairs(backbone1, sidechain1, backbone2, sidechain2, 15.0)
-    )
+    (
+        donors_pairs,
+        res_backbone1,
+        res_sidechain1,
+        res_backbone2,
+        res_sidechain2,
+    ) = getNearestNeighborsInPairs(backbone1, sidechain1, backbone2, sidechain2, 15.0)
 
     backbone1 = site1.backboneNeighbours.copy()
     if res_backbone1:
@@ -38,10 +40,14 @@ def matchAtoms(site1, site2, maxDist):
     if res_sidechain2:
         sidechain2.update(res_sidechain2)
 
-    neighbours_pairs, res_backbone1, res_sidechain1, res_backbone2, res_sidechain2 = (
-        getNearestNeighborsInPairs(
-            backbone1, sidechain1, backbone2, sidechain2, maxDist
-        )
+    (
+        neighbours_pairs,
+        res_backbone1,
+        res_sidechain1,
+        res_backbone2,
+        res_sidechain2,
+    ) = getNearestNeighborsInPairs(
+        backbone1, sidechain1, backbone2, sidechain2, maxDist
     )
 
     pairs = donors_pairs + neighbours_pairs
@@ -50,9 +56,12 @@ def matchAtoms(site1, site2, maxDist):
 
 
 def getNearestNeighborsInPairs(backbone1, sidechain1, backbone2, sidechain2, maxDist):
-    backbone1Coords, sidechain1Coords, backbone2Coords, sidechain2Coords = (
-        getCoordinatesForNNS(backbone1, sidechain1, backbone2, sidechain2)
-    )
+    (
+        backbone1Coords,
+        sidechain1Coords,
+        backbone2Coords,
+        sidechain2Coords,
+    ) = getCoordinatesForNNS(backbone1, sidechain1, backbone2, sidechain2)
 
     keys = findNearestNeighbors(backbone1Coords, backbone2Coords, maxDist)
     pairs = getAtomsByKeys(keys, backbone1, sidechain1, backbone2, sidechain2, maxDist)

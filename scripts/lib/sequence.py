@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 import copy
 
@@ -133,26 +132,26 @@ def getLinesOfSequenceAlignment(atomsList):
 
     #
     chainList1 = []
-    chainList1.append("{0:<4}".format(chain1))
+    chainList1.append(f"{chain1:<4}")
     idList1 = []
-    idList1.append("{0:<4}".format(id1))
+    idList1.append(f"{id1:<4}")
     aaList1 = []
     if atomIsFromLigand(atom1_1):
         aaList1.append("{0:<1}{1:<3}".format(aa1, "*"))
     else:
-        aaList1.append("{0:<4}".format(aa1))
+        aaList1.append(f"{aa1:<4}")
     #
     pipeList = []
     #
     chainList2 = []
-    chainList2.append("{0:<4}".format(chain2))
+    chainList2.append(f"{chain2:<4}")
     idList2 = []
-    idList2.append("{0:<4}".format(id2))
+    idList2.append(f"{id2:<4}")
     aaList2 = []
     if atomIsFromLigand(atom2_1):
         aaList2.append("{0:<1}{1:<3}".format(aa2, "*"))
     else:
-        aaList2.append("{0:<4}".format(aa2))
+        aaList2.append(f"{aa2:<4}")
     #
 
     if aaList1[0] == aaList2[0]:
@@ -182,7 +181,7 @@ def getLinesOfSequenceAlignment(atomsList):
                 chainList2.append(" | ")
                 idList2.append(" | ")
                 aaList2.append(" | ")
-                chainList1.append("{0:<4}".format(atom1_i.chain))
+                chainList1.append(f"{atom1_i.chain:<4}")
                 chain1 = atom1_i.chain
                 flag = True
                 k = k + 1
@@ -205,11 +204,11 @@ def getLinesOfSequenceAlignment(atomsList):
                     k = k + 1
                     flag = True
 
-                idList1[k - 2] = "{0:<4}".format(atomsList[i - 1][0].resid)
-                idList1.append("{0:<4}".format(atom1_i.resid))
+                idList1[k - 2] = f"{atomsList[i - 1][0].resid:<4}"
+                idList1.append(f"{atom1_i.resid:<4}")
                 id1 = atom1_i.resid
             else:
-                idList1.append("{0:<4}".format(atom1_i.resid))
+                idList1.append(f"{atom1_i.resid:<4}")
                 id1 = atom1_i.resid
 
             if atomIsFromLigand(atom1_i):
@@ -217,7 +216,7 @@ def getLinesOfSequenceAlignment(atomsList):
                     "{0:<1}{1:<3}".format(getOneLetterResudueCode(atom1_i), "*")
                 )
             else:
-                aaList1.append("{0:<4}".format(getOneLetterResudueCode(atom1_i)))
+                aaList1.append(f"{getOneLetterResudueCode(atom1_i):<4}")
 
             # The second atom from a pair
             if atom2_i.chain != chain2:
@@ -242,7 +241,7 @@ def getLinesOfSequenceAlignment(atomsList):
                     chainList1[k - 1] = " | "
                     chainList2[k - 1] = " | "
 
-                chainList2.append("{0:<4}".format(atom2_i.chain))
+                chainList2.append(f"{atom2_i.chain:<4}")
                 chain2 = atom2_i.chain
             else:
                 chainList2.append(" " * 4)
@@ -268,11 +267,11 @@ def getLinesOfSequenceAlignment(atomsList):
                     k = k + 1
                     flag = True
 
-                idList2[k - 2] = "{0:<4}".format(atomsList[i - 1][1].resid)
-                idList2.append("{0:<4}".format(atom2_i.resid))
+                idList2[k - 2] = f"{atomsList[i - 1][1].resid:<4}"
+                idList2.append(f"{atom2_i.resid:<4}")
                 id2 = atom2_i.resid
             else:
-                idList2.append("{0:<4}".format(atom2_i.resid))
+                idList2.append(f"{atom2_i.resid:<4}")
                 id2 = atom2_i.resid
 
             if atomIsFromLigand(atom2_i):
@@ -280,7 +279,7 @@ def getLinesOfSequenceAlignment(atomsList):
                     "{0:<1}{1:<3}".format(getOneLetterResudueCode(atom2_i), "*")
                 )
             else:
-                aaList2.append("{0:<4}".format(getOneLetterResudueCode(atom2_i)))
+                aaList2.append(f"{getOneLetterResudueCode(atom2_i):<4}")
 
             if aaTemp == aaList2[-1]:
                 pipeList.append(" |  ")
@@ -291,9 +290,15 @@ def getLinesOfSequenceAlignment(atomsList):
 
 
 def writeLinesOfSequenceAlignment(atomsList, outFile, sequence_list):
-    chainList1, idList1, aaList1, chainList2, idList2, aaList2, pipeList = (
-        getLinesOfSequenceAlignment(atomsList)
-    )
+    (
+        chainList1,
+        idList1,
+        aaList1,
+        chainList2,
+        idList2,
+        aaList2,
+        pipeList,
+    ) = getLinesOfSequenceAlignment(atomsList)
     #
 
     sequence_list.append(

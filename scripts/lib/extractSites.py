@@ -1,5 +1,4 @@
 #!/usr/bin/env python2.6
-# -*- coding: utf-8 -*-
 
 import math
 import os
@@ -8,10 +7,8 @@ from collections import defaultdict
 from operator import attrgetter
 
 import numpy as np
-from Bio.PDB import PDBIO
+from Bio.PDB import PDBIO, Chain, Model, NeighborSearch, Residue, Structure
 from Bio.PDB import Atom as BioAtom
-from Bio.PDB import Chain, Model, NeighborSearch, Residue, Structure
-
 from biopython import MyProtein
 from lib.metalSite import MetalSite
 from lib.nomenclature import metalList
@@ -21,7 +18,7 @@ from lib.nomenclature import metalList
 # ===============================================================================
 
 
-class SourcePDB(object):
+class SourcePDB:
     def __init__(self, pathPdb, maxDist=5.0):
         self.maxDist = maxDist
 

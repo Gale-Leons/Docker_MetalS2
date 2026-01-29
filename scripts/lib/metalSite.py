@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 import copy
 
@@ -13,7 +12,7 @@ from lib.atom import (
 from lib.constants import *
 
 
-class MetalSite(object):
+class MetalSite:
     """
         Single metal site object shifted to the origin of coordinates
 

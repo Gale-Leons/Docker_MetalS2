@@ -1,9 +1,6 @@
-# -*- coding: utf-8 -*-
-
 import copy
 
 import numpy
-
 from lib.metalSite import MetalSite, getCoordinatesOfAtomsInList, multipleCoordination
 from lib.poses import PoseWithPlanarPatterns
 
@@ -19,7 +16,7 @@ _EPS = numpy.finfo(float).eps * 4.0
 # ===============================================================================
 
 
-class Rotations(object):
+class Rotations:
     """
     Rotations are defined as all rigid body movements minimizing a value of rmsd between each pair of local patterns
     Rotations are represented by rotation matrices derived from superposition of pars of local patterns
