@@ -44,4 +44,4 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: ${{ vars.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
+          tags: ${{ vars.DOCKER_USERNAME }}/docker_metals2:latest
