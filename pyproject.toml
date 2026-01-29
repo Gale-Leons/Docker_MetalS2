@@ -21,7 +21,17 @@ ignore = [
     "F405",  # name may be undefined, or defined from star imports
 ]
 
+[tool.ruff.format]
+
 [tool.pyright]
 typeCheckingMode = "strict"
 pythonVersion= "3.12"
 exclude= [".venv"]
+
+[tool.pyright.report]
+reportUnkownMemberType = false
+reportUnkownVariableType = false
+reportUnknownArgumentType = false
+reportUnknownParameterType = false
+reportMissingParameterType = false
+reportPossiblyUnboundVariable = false
