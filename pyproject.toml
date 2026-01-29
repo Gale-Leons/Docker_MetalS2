@@ -17,9 +17,11 @@ ignore = [
     "B008",  # do not perform function calls in argument defaults
     "W191",  # indentation contains tabs
     "B904",  # Allow raising exceptions without from e, for HTTPException
+    "F403",  # from ... import *
+    "F405",  # name may be undefined, or defined from star imports
 ]
 
-[tool pyright]
+[tool.pyright]
 typeCheckingMode = "strict"
 pythonVersion= "3.12"
 exclude= [".venv"]
