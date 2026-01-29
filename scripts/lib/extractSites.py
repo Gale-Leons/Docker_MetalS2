@@ -134,7 +134,7 @@ class SourcePDB:
             donors = []
 
             for metal in self.sites[site]:
-                donors_temp = [donor for donor in self.donors[metal]]
+                donors_temp = list(self.donors[metal])
                 donors.extend(donors_temp)
 
             donors = list(set(donors))
@@ -251,7 +251,7 @@ class SourcePDB:
             ligands_names = self.findDonors(atom_list=atoms_list)
             self.findSites(ligands_names)
             self.Clone_atoms_4_site(atom_list=atoms_list)
-        except:
+        except Exception:
             raise Exception("Unable to extract sites")
 
     def getSites(self):
@@ -282,7 +282,7 @@ class SourcePDB:
             atom_list = self.sitesSource.get(site, [])
             try:
                 path_to_site_file = self.dumpSiteToFile(site, atoms=atom_list)
-            except:
+            except Exception:
                 raise Exception(f"Unable to open {self.code}")
 
             try:

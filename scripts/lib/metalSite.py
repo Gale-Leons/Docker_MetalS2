@@ -24,7 +24,7 @@ class MetalSite:
     """
 
     def __init__(self, atoms=None, filename=None, rawSite=None):
-        if rawSite != None:
+        if rawSite is not None:
             # self.nameExt = rawSite.filename.split('/')[-1]
             # self.name = rawSite.filename.split('/')[-1].split('.')[0]
             self.nameExt = filename.split("/")[-1]
@@ -104,25 +104,19 @@ class MetalSite:
             if atomIsFromBackbone(atom):
                 if atomIsFromLigand(atom):
                     if atomIsFromProtein(atom):
-                        handle = "{0}{1}{2}".format(
-                            atom.chain.upper().strip(), "_", atom.resid
-                        )
+                        handle = f"{atom.chain.upper().strip()}_{atom.resid}"
                         if handle not in self.backboneDonors.keys():
                             self.backboneDonors[handle] = atom
                 elif atomIsNeighbour(atom):
                     if atomIsFromProtein(atom):
-                        handle = "{0}{1}{2}".format(
-                            atom.chain.upper().strip(), "_", atom.resid
-                        )
+                        handle = f"{atom.chain.upper().strip()}_{atom.resid}"
                         if handle not in self.backboneNeighbours.keys():
                             self.backboneNeighbours[handle] = atom
 
             elif atomIsFromSideChain(atom):
                 if atomIsFromLigand(atom):
                     if atomIsFromProtein(atom):
-                        handle = "{0}{1}{2}".format(
-                            atom.chain.upper().strip(), "_", atom.resid
-                        )
+                        handle = f"{atom.chain.upper().strip()}_{atom.resid}"
                         if (
                             handle in self.backboneDonors.keys()
                             and handle not in self.sideChainDonors.keys()
@@ -130,9 +124,7 @@ class MetalSite:
                             self.sideChainDonors[handle] = atom
                 elif atomIsNeighbour(atom):
                     if atomIsFromProtein(atom):
-                        handle = "{0}{1}{2}".format(
-                            atom.chain.upper().strip(), "_", atom.resid
-                        )
+                        handle = f"{atom.chain.upper().strip()}_{atom.resid}"
                         if (
                             handle in self.backboneNeighbours.keys()
                             and handle not in self.sideChainNeighbours.keys()

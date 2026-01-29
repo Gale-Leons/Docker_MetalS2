@@ -79,13 +79,6 @@ class Scoring:
                         S = S + aa_score
                         if aa1 == aa2:
                             count += 1
-                    elif atomIsFromDNAorRNA(atom1) and atomIsFromDNAorRNA(atom2):
-                        na1 = atom1.aa.upper().strip()
-                        na2 = atom2.aa.upper().strip()
-                        na_score = scoreNucleicAcids(na1, na2)
-                        S = S + na_score
-                        if na1 == na2:
-                            count += 1
 
             self.rmsd = numpy.sqrt(sum_d / n)
 
@@ -138,10 +131,6 @@ class Scoring:
                 aa_score = scoreAminoAcids(residueCode, residueCode)
                 S_max = S_max + aa_score
 
-            elif atomIsFromDNAorRNA(atom):
-                na_score = scoreNucleicAcids(residueCode, residueCode)
-                S_max = S_max + na_score
-
         return S_max
 
 
@@ -180,7 +169,7 @@ def scoreAminoAcids(aa1, aa2):
 
 def scoreIsValid(score):
     # Score equal to zero may exist for two equal sites
-    if score != None and score != float("inf"):
+    if score is not None and score != float("inf"):
         return True
     else:
         return False

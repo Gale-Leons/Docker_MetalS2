@@ -134,7 +134,7 @@ def parseCommandLineOptions(argv):
                 printHelpInfo()
                 sys.exit()
             else:
-                assert False, "unhandled option"
+                raise AssertionError("unhandled option")
 
         optList = []
         for opt in opts:
@@ -209,37 +209,22 @@ def example():
 
 
 def helpinfo():
-    print("{0}{1}".format("Options:\n", "--------"))
+    print("Options:\n------")
     print(
-        "{0:<22}{1:<20}{2}{3:<22}{4:<20}{5}{6:<22}{7:<20}{8}{9:<22}{10:<20}{11}{12:<22}{13:<20}{14}{15:<22}{16:<20}{17}{18:<22}{19:<20}{20}{21:<22}{22:<20}{23}{24:<22}{25:<20}{26}".format(
-            "     --qp <file1>",
-            "input parameter",
-            "specify the path to a file with a query pdb\n",
-            "     --tp <file2>",
-            "input parameter",
-            "specify the path to a file with a target pdb\n",
-            "     --qs <file1>",
-            "input parameter",
-            "specify the path to a file with a query site\n",
-            "     --ts <file2>",
-            "input parameter",
-            "specify the path to a file with a target site\n\n",
-            "     --qm <number>",
-            "input option",
-            "specify a sequence number of a metal of interest in the query structure\n",
-            "     --tm <number>",
-            "input option",
-            "specify a sequence number of a metal of interest in the target structure\n\n",
-            "     -d   <number>",
-            "input option",
-            "specify the maximum distance between atoms to considere two atoms as possible neighbours (in A)\n\n",
-            "     -h   --help",
-            "flag",
-            "print help information\n",
-            "     -u   --usage",
-            "flag",
-            "print usage summary",
-        )
+        """
+     --qp <file1>           input parameter     specify the path to a file with a query pdb
+     --tp <file2>           input parameter     specify the path to a file with a target pdb
+     --qs <file1>           input parameter     specify the path to a file with a query site
+     --ts <file2>           input parameter     specify the path to a file with a target site
+
+     --qm <number>          input option        specify a sequence number of a metal of interest in the query structure
+     --tm <number>          input option        specify a sequence number of a metal of interest in the target structure
+
+     -d   <number>          input option        specify the maximum distance between atoms to considere two atoms as possible neighbours (in A)
+
+     -h   --help            flag                print help information
+     -u   --usage           flag                print usage summary
+    """.strip()
     )
 
 

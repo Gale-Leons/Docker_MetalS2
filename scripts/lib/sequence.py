@@ -86,8 +86,8 @@ def writeSequenceToFile(site1, site2, outputPath, maxDist):
 
     outFile = open(outputPath, "w")
     #
-    querySiteName = "{0:<7}{1:<4}".format("Query:", site1.name)
-    sbjctSiteName = "{0:<7}{1:<4}".format("Sbjct:", site2.name)
+    querySiteName = "{:<7}{:<4}".format("Query:", site1.name)
+    sbjctSiteName = "{:<7}{:<4}".format("Sbjct:", site2.name)
     #
     outFile.writelines(querySiteName)
     outFile.writelines("\n")
@@ -137,7 +137,7 @@ def getLinesOfSequenceAlignment(atomsList):
     idList1.append(f"{id1:<4}")
     aaList1 = []
     if atomIsFromLigand(atom1_1):
-        aaList1.append("{0:<1}{1:<3}".format(aa1, "*"))
+        aaList1.append("{:<1}{:<3}".format(aa1, "*"))
     else:
         aaList1.append(f"{aa1:<4}")
     #
@@ -149,7 +149,7 @@ def getLinesOfSequenceAlignment(atomsList):
     idList2.append(f"{id2:<4}")
     aaList2 = []
     if atomIsFromLigand(atom2_1):
-        aaList2.append("{0:<1}{1:<3}".format(aa2, "*"))
+        aaList2.append("{:<1}{:<3}".format(aa2, "*"))
     else:
         aaList2.append(f"{aa2:<4}")
     #
@@ -165,8 +165,8 @@ def getLinesOfSequenceAlignment(atomsList):
         atom2_i = atomsList[i][1]
 
         if (
-            getOneLetterResudueCode(atom1_i) != None
-            and getOneLetterResudueCode(atom2_i) != None
+            getOneLetterResudueCode(atom1_i) is not None
+            and getOneLetterResudueCode(atom2_i) is not None
         ):
             flag = False
             k = k + 1
@@ -189,7 +189,7 @@ def getLinesOfSequenceAlignment(atomsList):
                 chainList1.append(" " * 4)
 
             if (atom1_i.resid != id1 + 1) and (atom1_i.resid != id1 - 1):
-                if flag == False:
+                if flag is False:
                     temp = chainList1[k]
                     chainList1[k] = "   "
                     chainList1.append(temp)
@@ -213,7 +213,7 @@ def getLinesOfSequenceAlignment(atomsList):
 
             if atomIsFromLigand(atom1_i):
                 aaList1.append(
-                    "{0:<1}{1:<3}".format(getOneLetterResudueCode(atom1_i), "*")
+                    "{:<1}{:<3}".format(getOneLetterResudueCode(atom1_i), "*")
                 )
             else:
                 aaList1.append(f"{getOneLetterResudueCode(atom1_i):<4}")
@@ -221,7 +221,7 @@ def getLinesOfSequenceAlignment(atomsList):
             # The second atom from a pair
             if atom2_i.chain != chain2:
                 # If chain is changed in second sequence, pipe is inserted in both sequenses and first sequence is shifted
-                if flag == False:
+                if flag is False:
                     temp = chainList1[k]
                     chainList1[k] = " | "
                     chainList1.append(temp)
@@ -248,7 +248,7 @@ def getLinesOfSequenceAlignment(atomsList):
 
             aaTemp = aaList1[k]
             if (atom2_i.resid != id2 + 1) and (atom2_i.resid != id2 - 1):
-                if flag == False:
+                if flag is False:
                     temp = chainList1[k]
                     chainList1[k] = "   "
                     chainList1.append(temp)
@@ -276,7 +276,7 @@ def getLinesOfSequenceAlignment(atomsList):
 
             if atomIsFromLigand(atom2_i):
                 aaList2.append(
-                    "{0:<1}{1:<3}".format(getOneLetterResudueCode(atom2_i), "*")
+                    "{:<1}{:<3}".format(getOneLetterResudueCode(atom2_i), "*")
                 )
             else:
                 aaList2.append(f"{getOneLetterResudueCode(atom2_i):<4}")

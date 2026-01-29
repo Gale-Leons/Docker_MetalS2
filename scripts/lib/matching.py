@@ -94,8 +94,8 @@ def getAtomsByKeys(keys, source1bb, source1sc, source2bb, source2sc, maxDist):
 
             # check if side chain atoms have a pair
             if (
-                source1sc.get(atomsKeys[0]) != None
-                and source2sc.get(atomsKeys[1]) != None
+                source1sc.get(atomsKeys[0]) is not None
+                and source2sc.get(atomsKeys[1]) is not None
             ):
                 atom1_sc = source1sc[atomsKeys[0]]
                 atom2_sc = source2sc[atomsKeys[1]]

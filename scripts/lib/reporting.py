@@ -83,7 +83,7 @@ def storeAlignment(site1, site2, outputPath):
     rootDir = os.path.join(outputPath, f"{site1.name}_vs_{site2.name}")
     try:
         os.mkdir(rootDir)
-    except:
+    except Exception:
         # print '\nOutput directory "%s" already exists.\nDo you want to overwrite it? (y/n)\n\nWarning! Deleting a directory will also delete all contents within the directory.\n' % (sitesDirRoot)
         overwriteDir = True
 
@@ -115,29 +115,29 @@ def writeScoresToFile(scoreReport, path):
     out_file = open(path, "w")
 
     name1 = f"{scoreReport.name1}_{scoreReport.metals1}"
-    fst_line = "{0:<10}{1:<25}\n".format("Name 1:", name1)
+    fst_line = "{:<10}{:<25}\n".format("Name 1:", name1)
     out_file.write(fst_line)
     name2 = f"{scoreReport.name2}_{scoreReport.metals2}"
-    snd_line = "{0:<10}{1:<25}\n".format("Name 2:", name2)
+    snd_line = "{:<10}{:<25}\n".format("Name 2:", name2)
     out_file.write(snd_line)
 
     out_file.write("\n")
 
-    rmsd_line = "{0:<27}{1:<25}\n".format("RMSD over aligned region:", scoreReport.rmsd)
+    rmsd_line = "{:<27}{:<25}\n".format("RMSD over aligned region:", scoreReport.rmsd)
     out_file.write(rmsd_line)
 
     out_file.write("\n")
 
-    p1_line = "{0:<27}{1:<25}\n".format("Relative coverage term:", scoreReport.p1)
+    p1_line = "{:<27}{:<25}\n".format("Relative coverage term:", scoreReport.p1)
     out_file.write(p1_line)
-    p2_line = "{0:<27}{1:<25}\n".format("Chemical similarity term:", scoreReport.p2)
+    p2_line = "{:<27}{:<25}\n".format("Chemical similarity term:", scoreReport.p2)
     out_file.write(p2_line)
-    p3_line = "{0:<27}{1:<25}\n".format("Continuity term:", scoreReport.p3)
+    p3_line = "{:<27}{:<25}\n".format("Continuity term:", scoreReport.p3)
     out_file.write(p3_line)
 
     out_file.write("\n")
 
-    total_line = "{0:<27}{1:<25}\n".format("Total score:", scoreReport.totalScore)
+    total_line = "{:<27}{:<25}\n".format("Total score:", scoreReport.totalScore)
     out_file.write(total_line)
 
     out_file.close()
@@ -145,7 +145,6 @@ def writeScoresToFile(scoreReport, path):
 
 def visualizeAlignment(path):
     fileName = "visualisation.pml"
-    files = os.listdir(path)
     filePath = os.path.join(path, fileName)
 
     out = open(filePath, "w")
