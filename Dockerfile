@@ -13,12 +13,12 @@ WORKDIR /app
 COPY . .
 
 # Install your fork of Biopython
-RUN pip install --upgrade pip setuptools wheel
-RUN pip install git+https://github.com/Gale-Leons/biopython@master
+RUN pip3 install --upgrade pip setuptools wheel
+RUN pip3 install git+https://github.com/Gale-Leons/biopython@master
 
 # Install other dependecies
 COPY requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip3 install -r requirements.txt
 
 # Default help command
-CMD ["python", "scripts/metals2.py", "--h"]
+CMD ["python3", "scripts/metals2.py", "--h"]
