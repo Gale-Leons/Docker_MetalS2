@@ -82,7 +82,7 @@ class MyProtein:
                 element = aa
             else:
                 element = atom.element
-            
+
             element_type = element
             beta = atom.get_bfactor()
 
