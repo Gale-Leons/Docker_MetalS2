@@ -6,6 +6,7 @@ Creazione della classe MyProtein che sostituisce la obsoleta Protiein di p3d per
 import os
 
 from Bio.PDB import PDBParser
+from lib.nomenclature import metalList
 
 # import sys
 
@@ -77,8 +78,11 @@ class MyProtein:
             # Filter / remove waters
             if aa == "HOH":
                 continue
-
-            element = atom.element
+            if aa in metalList:
+                element = aa
+            else:
+                element = atom.element
+            
             element_type = element
             beta = atom.get_bfactor()
 
