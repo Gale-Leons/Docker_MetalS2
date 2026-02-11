@@ -32,7 +32,12 @@ def atomIsFromSideChain(atom):
         return True
     else:
         return False
-
+    
+def atomIsDonor(atom):
+    if atom.beta == donorsTempFactor:
+        return True
+    else:
+        return False
 
 def atomIsFromLigand(atom):
     if atom.beta == ligandsTempFactor:

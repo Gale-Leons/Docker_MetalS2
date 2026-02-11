@@ -100,6 +100,15 @@ class Rotations:
                 localPatterns.append([site.donorAtoms[i], site.donorAtoms[j]])
 
         return localPatterns
+    
+    def findLinearLocalPatterns(self, site):
+
+        localPatterns = []
+
+        for atom in site.donorAtoms:
+            localPatterns.append([atom])
+
+        return localPatterns
 
 
 # ===============================================================================
@@ -299,6 +308,23 @@ def vectorNorm(data, axis=None, out=None):
         numpy.sum(data, axis=axis, out=out)
         numpy.sqrt(out, out)
 
+def quaternionAboutAxis(angle, axis):
+    """
+    Returns quaternion for rotation about axis.
+
+    >>> q = quaternion_about_axis(0.123, [1, 0, 0])
+    >>> numpy.allclose(q, [0.99810947, 0.06146124, 0, 0])
+    True
+    """
+
+    q = numpy.array([0.0, axis[0], axis[1], axis[2]])
+    qlen = vectorNorm(q)
+    if qlen > _EPS:
+        q *= numpy.sin(angle / 2.0) / qlen
+    q[0] = numpy.cos(angle / 2.0)
+
+    return q
+
 
 def matrixOutOfQuaternion(quaternion):
     """
@@ -325,6 +351,25 @@ def matrixOutOfQuaternion(quaternion):
         ]
     )
 
+def rotateSiteAboutAxis2(site, tempSite, axis, angleGrad):
+    """
+    Rotates a site by a given angle
+
+    site: a MetalSite object
+    axis: an axis for rotation to be about
+    angleGrad: an angle of rotation (degree scale)
+
+    Returns a pertrubated site
+    """
+
+    angleRad = angleGrad * (2 * math.pi / 360)
+
+    q = quaternionAboutAxis(angleRad, axis)
+    tranformMatrix = matrixOutOfQuaternion(q)
+    rotationMatrix = extractRotationMatrix(tranformMatrix)
+    rotatedSite = applyRotationMatrix2(site, tempSite, rotationMatrix)
+
+    return rotatedSite, rotationMatrix
 
 def applyTransformationToSite(site, rotM, tranM):
     for atom in site.metals:

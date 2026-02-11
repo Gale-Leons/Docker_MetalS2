@@ -206,6 +206,46 @@ def scorePoses(site1, site2, poses, coordination, scores):
             score = scores.getTotalScore()
 
             pose.score = score
+    
+    else:
+        phase = 360.0
+        n = 18
+        angleDelta = phase / n
+
+        tempSite = MetalSite()
+        tempSite = copySite(site2, tempSite)
+
+        for pose in poses:
+            axis = pose.getAxis()
+            rm = pose.rotationMatrix
+            site = applyRotationMatrix2(site2, tempSite, rm)
+            scores.scoreSites(site1, site)
+            score = scores.getTotalScore()
+
+            pose.score = score
+
+            new_poses = []
+            angle = angleDelta
+            while angle != phase:
+
+                site = applyRotationMatrix2(site2, tempSite, rm)
+                rotatedSite, rotationMatrix = rotateSiteAboutAxis2(
+                    site, tempSite, axis, angle
+                )
+                scores.scoreSites(site1, rotatedSite)
+                score = scores.getTotalScore()
+
+                new_pose = PoseWithLinearPatterns()
+                new_pose.pattern1 = pose.pattern1
+                new_pose.pattern2 = pose.pattern2
+                new_pose.score = score
+                new_pose.rotationMatrix = numpy.dot(rotationMatrix, rm)
+
+                new_poses.append(new_pose)
+
+                angle = angle + angleDelta
+
+            poses = poses + new_poses
 
     poses[:] = [pose for pose in poses if scoreIsValid(pose.score)]
 
