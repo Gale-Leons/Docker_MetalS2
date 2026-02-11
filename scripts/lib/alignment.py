@@ -4,6 +4,7 @@ import numpy
 from lib.fitting import Fitting
 from lib.matching import matchAtoms
 from lib.metalSite import MetalSite, copySite, getCoordinatesOfAtomsInList
+from lib.poses import PoseWithLinearPatterns
 from lib.reporting import ScoreReport
 from lib.scoring import Scoring, scoreIsValid
 from lib.transformation import (
@@ -11,6 +12,7 @@ from lib.transformation import (
     applyRotationMatrix,
     applyRotationMatrix2,
     applyTransformationToSite,
+    rotateSiteAboutAxis2,
 )
 
 
@@ -206,7 +208,7 @@ def scorePoses(site1, site2, poses, coordination, scores):
             score = scores.getTotalScore()
 
             pose.score = score
-    
+
     else:
         phase = 360.0
         n = 18
@@ -227,7 +229,6 @@ def scorePoses(site1, site2, poses, coordination, scores):
             new_poses = []
             angle = angleDelta
             while angle != phase:
-
                 site = applyRotationMatrix2(site2, tempSite, rm)
                 rotatedSite, rotationMatrix = rotateSiteAboutAxis2(
                     site, tempSite, axis, angle

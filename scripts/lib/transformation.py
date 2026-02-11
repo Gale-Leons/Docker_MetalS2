@@ -1,4 +1,5 @@
 import copy
+import math
 
 import numpy
 from lib.metalSite import MetalSite, getCoordinatesOfAtomsInList, multipleCoordination
@@ -100,9 +101,8 @@ class Rotations:
                 localPatterns.append([site.donorAtoms[i], site.donorAtoms[j]])
 
         return localPatterns
-    
-    def findLinearLocalPatterns(self, site):
 
+    def findLinearLocalPatterns(self, site):
         localPatterns = []
 
         for atom in site.donorAtoms:
@@ -308,6 +308,7 @@ def vectorNorm(data, axis=None, out=None):
         numpy.sum(data, axis=axis, out=out)
         numpy.sqrt(out, out)
 
+
 def quaternionAboutAxis(angle, axis):
     """
     Returns quaternion for rotation about axis.
@@ -351,6 +352,7 @@ def matrixOutOfQuaternion(quaternion):
         ]
     )
 
+
 def rotateSiteAboutAxis2(site, tempSite, axis, angleGrad):
     """
     Rotates a site by a given angle
@@ -370,6 +372,7 @@ def rotateSiteAboutAxis2(site, tempSite, axis, angleGrad):
     rotatedSite = applyRotationMatrix2(site, tempSite, rotationMatrix)
 
     return rotatedSite, rotationMatrix
+
 
 def applyTransformationToSite(site, rotM, tranM):
     for atom in site.metals:

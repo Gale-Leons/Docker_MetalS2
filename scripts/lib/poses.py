@@ -13,7 +13,6 @@ class Pose:
 
 
 class PoseWithLinearPatterns(Pose):
-    
     def getAxis(self):
         axis = self.pattern1[0]
         return axis
