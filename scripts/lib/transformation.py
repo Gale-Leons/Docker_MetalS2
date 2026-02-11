@@ -3,7 +3,7 @@ import math
 
 import numpy
 from lib.metalSite import MetalSite, getCoordinatesOfAtomsInList, multipleCoordination
-from lib.poses import PoseWithPlanarPatterns
+from lib.poses import PoseWithLinearPatterns, PoseWithPlanarPatterns
 
 # ===============================================================================
 """CONSTANTS"""
@@ -44,8 +44,7 @@ class Rotations:
                 if self.coordination == "multiple":
                     pose = PoseWithPlanarPatterns()
                 else:
-                    # pose = PoseWithLinearPatterns()
-                    raise Exception
+                    pose = PoseWithLinearPatterns()
 
                 target_set = getCoordinatesOfAtomsInList(target_pattern)
                 transformationMatrix = findBestTransformation(query_set, target_set)
