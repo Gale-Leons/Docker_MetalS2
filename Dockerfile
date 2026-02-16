@@ -9,28 +9,34 @@ RUN apt-get update && apt-get install -y \
     procps \
     && rm -rf /var/lib/apt/lists/*
 
-
+# Crea utente
 ARG USER_ID=1000
 ARG GROUP_ID=1000
 RUN groupadd -g ${GROUP_ID} appuser && \
     useradd -m -u ${USER_ID} -g appuser appuser
 
-
 RUN mkdir -p /app && chown -R appuser:appuser /app
 RUN mkdir -p /tmp && chmod 777 /tmp
 
-USER appuser
-
 WORKDIR /app
-COPY --chown=appuser:appuser . .
+
+COPY . . 
 
 # Install your fork of Biopython
 RUN pip3 install --upgrade pip setuptools wheel
 RUN pip3 install git+https://github.com/Gale-Leons/biopython@master
+COPY requirements.txt app/requirements.txt
+RUN pip3 install --no-cache-dir -r /app/requirements.txt
 
-# Install other dependecies
-COPY requirements.txt .
-RUN pip3 install -r requirements.txt
+# verifica 
+RUN python3 -c "import numpy; print(numpy.__file__)"
+
+# Cambia owner
+RUN chown -R appuser:appuser /app
+
+# Switch utente
+USER appuser
+WORKDIR /app
 
 # Default help command
 CMD ["python3", "scripts/metals2.py", "--h"]
