@@ -194,6 +194,15 @@ def parseCommandLineOptions(argv):
 
     return input1, input2, output, maxDist, rmPdb, scoreOnly
 
+
+def printHelpInfo():
+    summary()
+    usage()
+    example()
+    helpinfo()
+    moreinfo()
+
+
 def summary():
     print("\nSummary:\n--------")
     print(

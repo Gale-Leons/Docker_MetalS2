@@ -106,9 +106,7 @@ def storeAlignment(site1, site2, outputPath, writeSites=True):
 
 def reportAlignment(site1, site2, scoreReport, outputPath, maxDist, scoreOnly=False):
     if scoreOnly:
-        scorePath = os.path.join(
-            outputPath, f"score_{site1.name}_vs_{site2.name}.txt"
-        )
+        scorePath = os.path.join(outputPath, f"score_{site1.name}_vs_{site2.name}.txt")
     else:
         scorePath = os.path.join(outputPath, "score.txt")
     writeScoresToFile(scoreReport, scorePath)

@@ -13,9 +13,14 @@ if __name__ == "__main__":
         # informazioni provenienti dalla riga di comando per il lancio del programma da riga di comando
         # 1 contro tutti
         # maxDist non veniva esplicitato quindi verra' preso il Default
-        sitesList1, sitesList2, pathToOutput, maxDist, rmPdb, scoreOnly = processCommandLineArguments(
-            sys.argv
-        )
+        (
+            sitesList1,
+            sitesList2,
+            pathToOutput,
+            maxDist,
+            rmPdb,
+            scoreOnly,
+        ) = processCommandLineArguments(sys.argv)
         print("Ready to go.\n")
 
         multi = False
