@@ -33,7 +33,7 @@ if __name__ == "__main__":
 
         root = pathToOutput
         for site1 in sitesList1:
-            if multi:
+            if multi and not scoreOnly:
                 pathToOutput = os.path.join(pathToOutput, site1.name)
 
             for site2 in sitesList2:
@@ -51,9 +51,7 @@ if __name__ == "__main__":
                     continue
                 else:
                     if scoreOnly:
-                        sitesDirRoot = os.path.join(
-                            pathToOutput, f"{site1.name}_vs_{site2.name}"
-                        )
+                        sitesDirRoot = pathToOutput
                         if not os.path.exists(sitesDirRoot):
                             os.makedirs(sitesDirRoot)
                     else:
