@@ -13,7 +13,7 @@ if __name__ == "__main__":
         # informazioni provenienti dalla riga di comando per il lancio del programma da riga di comando
         # 1 contro tutti
         # maxDist non veniva esplicitato quindi verra' preso il Default
-        sitesList1, sitesList2, pathToOutput, maxDist = processCommandLineArguments(
+        sitesList1, sitesList2, pathToOutput, maxDist, rmPdb, scoreOnly = processCommandLineArguments(
             sys.argv
         )
         print("Ready to go.\n")
@@ -45,11 +45,27 @@ if __name__ == "__main__":
                     print("The alignment process can't be completed.")
                     continue
                 else:
-                    sitesDirRoot = storeAlignment(
-                        site1, alignedSite, pathToOutput
-                    )  # altra funzione
+                    if scoreOnly:
+                        sitesDirRoot = os.path.join(
+                            pathToOutput, f"{site1.name}_vs_{site2.name}"
+                        )
+                        if not os.path.exists(sitesDirRoot):
+                            os.makedirs(sitesDirRoot)
+                    else:
+                        sitesDirRoot = storeAlignment(
+                            site1,
+                            alignedSite,
+                            pathToOutput,
+                            writeSites=not rmPdb,
+                        )  # altra funzione
+
                     reportAlignment(
-                        site1, alignedSite, scoreReport, sitesDirRoot, maxDist
+                        site1,
+                        alignedSite,
+                        scoreReport,
+                        sitesDirRoot,
+                        maxDist,
+                        scoreOnly=scoreOnly,
                     )  # altra funzione di Report
                     print("Done.\n")
 

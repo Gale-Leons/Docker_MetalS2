@@ -70,7 +70,7 @@ class ScoreReport:
         self.percentage = percentage
 
 
-def storeAlignment(site1, site2, outputPath):
+def storeAlignment(site1, site2, outputPath, writeSites=True):
     if not os.path.exists(outputPath):
         try:
             os.mkdir(outputPath)
@@ -93,22 +93,29 @@ def storeAlignment(site1, site2, outputPath):
         if not overwriteDir:
             sys.exit()
 
-    sitesDir = os.path.join(rootDir, "sites")
-    os.mkdir(sitesDir)
+    if writeSites:
+        sitesDir = os.path.join(rootDir, "sites")
+        os.mkdir(sitesDir)
 
-    writeSiteToFile(sitesDir, f"{site1.name}_query.site.pdb", site1)
-    writeSiteToFile(sitesDir, f"{site2.name}_target.site.pdb", site2)
-    visualizeAlignment(sitesDir)
+        writeSiteToFile(sitesDir, f"{site1.name}_query.site.pdb", site1)
+        writeSiteToFile(sitesDir, f"{site2.name}_target.site.pdb", site2)
+        visualizeAlignment(sitesDir)
 
     return rootDir
 
 
-def reportAlignment(site1, site2, scoreReport, outputPath, maxDist):
-    scorePath = os.path.join(outputPath, "score.txt")
+def reportAlignment(site1, site2, scoreReport, outputPath, maxDist, scoreOnly=False):
+    if scoreOnly:
+        scorePath = os.path.join(
+            outputPath, f"score_{site1.name}_vs_{site2.name}.txt"
+        )
+    else:
+        scorePath = os.path.join(outputPath, "score.txt")
     writeScoresToFile(scoreReport, scorePath)
 
-    sequencePath = os.path.join(outputPath, "sequence.txt")
-    writeSequenceToFile(site1, site2, sequencePath, maxDist)
+    if not scoreOnly:
+        sequencePath = os.path.join(outputPath, "sequence.txt")
+        writeSequenceToFile(site1, site2, sequencePath, maxDist)
 
 
 def writeScoresToFile(scoreReport, path):

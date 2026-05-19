@@ -10,11 +10,11 @@ from lib.extractSites import getSitesFromPdbFile
 
 
 def processCommandLineArguments(argv):
-    input1, input2, output, maxDist = parseCommandLineOptions(argv)
+    input1, input2, output, maxDist, rmPdb, scoreOnly = parseCommandLineOptions(argv)
     sites1, sites2 = handleInputs(input1, input2)
     pathToOutput = handleOutputs(output)
 
-    return sites1, sites2, pathToOutput, maxDist
+    return sites1, sites2, pathToOutput, maxDist, rmPdb, scoreOnly
 
 
 def handleInputs(input1, input2):
@@ -67,7 +67,18 @@ def parseCommandLineOptions(argv):
         opts, args = getopt.getopt(
             argv[1:],
             "d:hu",
-            ["help", "usage", "qp=", "tp=", "qs=", "ts=", "qm=", "tm="],
+            [
+                "help",
+                "usage",
+                "qp=",
+                "tp=",
+                "qs=",
+                "ts=",
+                "qm=",
+                "tm=",
+                "rm_pdb",
+                "score_only",
+            ],
         )
 
     except getopt.GetoptError as err:
@@ -98,6 +109,8 @@ def parseCommandLineOptions(argv):
         metalID1 = None
         metalID2 = None
         maxDist = 2.0
+        rmPdb = False
+        scoreOnly = False
 
         # process options
         for o, a in opts:
@@ -118,6 +131,11 @@ def parseCommandLineOptions(argv):
                 metalID1 = int(a)
             elif o == "--tm":
                 metalID2 = int(a)
+
+            elif o == "--rm_pdb":
+                rmPdb = True
+            elif o == "--score_only":
+                scoreOnly = True
 
             elif o == "-d":
                 maxDist = math.fabs(float(a))
@@ -174,16 +192,7 @@ def parseCommandLineOptions(argv):
     else:
         output = args[0]
 
-    return input1, input2, output, maxDist
-
-
-def printHelpInfo():
-    summary()
-    usage()
-    example()
-    helpinfo()
-    moreinfo()
-
+    return input1, input2, output, maxDist, rmPdb, scoreOnly
 
 def summary():
     print("\nSummary:\n--------")
@@ -219,6 +228,8 @@ def helpinfo():
 
      --qm <number>          input option        specify a sequence number of a metal of interest in the query structure
      --tm <number>          input option        specify a sequence number of a metal of interest in the target structure
+     --rm_pdb               flag                remove generated PDB and PyMOL files from the output
+     --score_only           flag                write only a renamed score file for each alignment
 
      -d   <number>          input option        specify the maximum distance between atoms to considere two atoms as possible neighbours (in A)
 
