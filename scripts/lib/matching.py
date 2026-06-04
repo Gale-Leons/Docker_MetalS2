@@ -132,8 +132,6 @@ def findNearestNeighbors(dict1, dict2, maxDist):
 
         ind1 = dist.argmin()
 
-
-
         if dist[ind1] > maxDist:
             break
 
