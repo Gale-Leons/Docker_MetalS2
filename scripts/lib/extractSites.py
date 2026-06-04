@@ -260,23 +260,6 @@ class SourcePDB:
 
         metalSites = []
 
-        # TEST SOSTITUZIONE MODULO PROTEIN P3D
-        # for site in self.sites:
-        #     try:
-        #         path_to_site_file = self.dumpSiteToFile(site)
-        #         inSite = Protein(path_to_site_file)
-        #     except:
-        #         raise Exception('Unable to open %s' % self.code)
-
-        #     try:
-        #         metalSite = MetalSite(inSite)
-        #     except Exception:
-        #         os.remove(path_to_site_file)
-        #         continue
-        #     else:
-        #         metalSites.append(metalSite)
-        #         os.remove(path_to_site_file)
-
         # return metalSites
         for site in self.sites:
             atom_list = self.sitesSource.get(site, [])
@@ -298,8 +281,6 @@ class SourcePDB:
 
         return metalSites
 
-        # TODO: Continuare con la parte di lettura del sito.pdb e return del metalsite
-
     def dumpSiteToFile(self, site, atoms):
         print("Site:", site)
         atoms = self.sitesSource.get(site, [])
@@ -313,6 +294,9 @@ class SourcePDB:
         #     print(vars(x))
         #! ====================================
         metal_sites_dir = os.path.dirname(os.path.abspath(__file__))
+        metal_resids = sorted({atom.resid for atom in self.sites[site]})
+        metal_id = "_".join(str(x) for x in metal_resids)
+        output_name = f"{self.code}_{metal_id}.site.pdb"
         output_name = f"{self.code}_{site}.site.pdb"
         mSitePath = os.path.join(metal_sites_dir, output_name)
 

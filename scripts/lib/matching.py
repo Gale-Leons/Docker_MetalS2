@@ -99,8 +99,6 @@ def getAtomsByKeys(keys, source1bb, source1sc, source2bb, source2sc, maxDist):
             ):
                 atom1_sc = source1sc[atomsKeys[0]]
                 atom2_sc = source2sc[atomsKeys[1]]
-                # check if they are within 3A
-                # distance = atom1_sc.distanceTo(atom2_sc)
                 dx = atom1_sc.x - atom2_sc.x
                 dy = atom1_sc.x - atom2_sc.y
                 dz = atom1_sc.z - atom2_sc.z
@@ -120,13 +118,9 @@ def findNearestNeighbors(dict1, dict2, maxDist):
     keyPairs: a list of paired keys from two dictionaries
     """
 
-    # keys1 = dict1.keys() python2 restituiva lista
     keys1 = list(dict1.keys())
-    # set1 = dict1.values() python2 restituiva lista
     set1 = numpy.array(list(dict1.values()), dtype=float)
-    # keys2 = dict2.keys()
     keys2 = list(dict2.keys())
-    # set2 = dict2.values() python2
     set2 = numpy.array(list(dict2.values()), dtype=float)
 
     keyPairs = []
@@ -134,25 +128,18 @@ def findNearestNeighbors(dict1, dict2, maxDist):
 
     while (len(set1) > 0) and (len(set2) > 0):
         set2tree = cKDTree(set2)
-        # dist, pairs = numpy.array(set2tree.query(set1,1,0,2,maxDist)) PYTHON2
         dist, ind2 = set2tree.query(set1, k=1, eps=0, p=2, distance_upper_bound=maxDist)
 
         ind1 = dist.argmin()
 
-        # if (len(set(dist))==1) and (float('inf') in set(dist)):
-        #    break
+
 
         if dist[ind1] > maxDist:
             break
 
         keyPairs.append([keys1[ind1], keys2[ind2[ind1]]])
         setPairs.append([set1[ind1], set2[ind2[ind1]]])
-        # Gets indeces of pair residents with minimal interatomic distance
-        # ind1 = numpy.argmin(dist)
-        # ind2 = int(pairs[numpy.argmin(dist)])
 
-        # keyPairs.append([keys1.pop(ind1), keys2.pop(ind2)])
-        # setPairs.append([set1.pop(ind1), set2.pop(ind2)])
         keys1.pop(ind1)
         set1 = numpy.delete(set1, ind1, axis=0)
         keys2.pop(ind2[ind1])
