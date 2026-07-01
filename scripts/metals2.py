@@ -20,6 +20,7 @@ if __name__ == "__main__":
             maxDist,
             rmPdb,
             scoreOnly,
+            noDinuclear,
         ) = processCommandLineArguments(sys.argv)
         print("Ready to go.\n")
 

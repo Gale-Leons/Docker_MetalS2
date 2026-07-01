@@ -10,14 +10,22 @@ from lib.extractSites import getSitesFromPdbFile
 
 
 def processCommandLineArguments(argv):
-    input1, input2, output, maxDist, rmPdb, scoreOnly = parseCommandLineOptions(argv)
-    sites1, sites2 = handleInputs(input1, input2)
+    (
+        input1,
+        input2,
+        output,
+        maxDist,
+        rmPdb,
+        scoreOnly,
+        noDinuclear,
+    ) = parseCommandLineOptions(argv)
+    sites1, sites2 = handleInputs(input1, input2, noDinuclear)
     pathToOutput = handleOutputs(output)
 
-    return sites1, sites2, pathToOutput, maxDist, rmPdb, scoreOnly
+    return sites1, sites2, pathToOutput, maxDist, rmPdb, scoreOnly, noDinuclear
 
 
-def handleInputs(input1, input2):
+def handleInputs(input1, input2, noDinuclear=False):
     type1 = input1.get("type")
     type2 = input2.get("type")
 
@@ -36,8 +44,8 @@ def handleInputs(input1, input2):
 
     # Both files are pdb
     if type1 == "pdb" and type2 == "pdb":
-        sites1 = getSitesFromPdbFile(path1, metalID1)
-        sites2 = getSitesFromPdbFile(path2, metalID2)
+        sites1 = getSitesFromPdbFile(path1, metalID1, no_dinuclear=noDinuclear)
+        sites2 = getSitesFromPdbFile(path2, metalID2, no_dinuclear=noDinuclear)
 
     else:
         print("\nFiles are in a bad format.\n")
@@ -78,6 +86,7 @@ def parseCommandLineOptions(argv):
                 "tm=",
                 "rm_pdb",
                 "score_only",
+                "no_dinuclear",
             ],
         )
 
@@ -111,6 +120,7 @@ def parseCommandLineOptions(argv):
         maxDist = 2.0
         rmPdb = False
         scoreOnly = False
+        noDinuclear = False
 
         # process options
         for o, a in opts:
@@ -136,6 +146,9 @@ def parseCommandLineOptions(argv):
                 rmPdb = True
             elif o == "--score_only":
                 scoreOnly = True
+
+            elif o == "--no_dinuclear":
+                noDinuclear = True
 
             elif o == "-d":
                 maxDist = math.fabs(float(a))
@@ -192,7 +205,7 @@ def parseCommandLineOptions(argv):
     else:
         output = args[0]
 
-    return input1, input2, output, maxDist, rmPdb, scoreOnly
+    return input1, input2, output, maxDist, rmPdb, scoreOnly, noDinuclear
 
 
 def printHelpInfo():
@@ -239,6 +252,7 @@ def helpinfo():
      --tm <number>          input option        specify a sequence number of a metal of interest in the target structure
      --rm_pdb               flag                remove generated PDB and PyMOL files from the output
      --score_only           flag                write only a renamed score file for each alignment
+     --no_dinuclear         flag                do not merge nearby metal ions into dinuclear sites
 
      -d   <number>          input option        specify the maximum distance between atoms to considere two atoms as possible neighbours (in A)
 

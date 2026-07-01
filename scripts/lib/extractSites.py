@@ -19,8 +19,9 @@ from lib.nomenclature import metalList
 
 
 class SourcePDB:
-    def __init__(self, pathPdb, maxDist=5.0):
+    def __init__(self, pathPdb, maxDist=5.0, no_dinuclear=False):
         self.maxDist = maxDist
+        self.no_dinuclear = no_dinuclear
 
         self.code = pathPdb.split("/")[-1].replace(".pdb", "").lower()
         print(self.code)
@@ -80,6 +81,14 @@ class SourcePDB:
     def findSites(self, ligands_names):
         "Cluster metals into sites"
         print("findSites")
+
+        if self.no_dinuclear:
+            # Keep each metal ion as an independent site.
+            # This disables the original dinuclear-site clustering based on
+            # metal-metal distance or shared ligands.
+            self.sites = {i + 1: [metal] for i, metal in enumerate(self.metals)}
+            return
+
         maxDist = 3.5
         unassigned = list(self.metals)
 
@@ -297,7 +306,6 @@ class SourcePDB:
         metal_resids = sorted({atom.resid for atom in self.sites[site]})
         metal_id = "_".join(str(x) for x in metal_resids)
         output_name = f"{self.code}_{metal_id}.site.pdb"
-        output_name = f"{self.code}_{site}.site.pdb"
         mSitePath = os.path.join(metal_sites_dir, output_name)
 
         # 1. Create empty Structure
@@ -356,11 +364,11 @@ class SourcePDB:
 # ===============================================================================
 
 
-def getSitesFromPdbFile(pathPdb, metalID=None, maxDist=5.0):
+def getSitesFromPdbFile(pathPdb, metalID=None, maxDist=5.0, no_dinuclear=False):
     # ? create atom object
     protein = MyProtein.MyProtein(pathPdb)
     atoms = protein.atoms_raw
-    sourcePDB = SourcePDB(pathPdb, maxDist)
+    sourcePDB = SourcePDB(pathPdb, maxDist, no_dinuclear=no_dinuclear)
     try:
         sourcePDB.findSitesInPDB(atoms_list=atoms)
         if metalID:
