@@ -19,9 +19,12 @@ from lib.nomenclature import metalList
 
 
 class SourcePDB:
-    def __init__(self, pathPdb, maxDist=5.0, no_dinuclear=False):
+    def __init__(
+        self, pathPdb, maxDist=5.0, no_dinuclear=False, donor_dist_fallback=None
+    ):
         self.maxDist = maxDist
         self.no_dinuclear = no_dinuclear
+        self.donor_dist_fallback = donor_dist_fallback
 
         self.code = pathPdb.split("/")[-1].replace(".pdb", "").lower()
         print(self.code)
@@ -55,27 +58,35 @@ class SourcePDB:
         ligands_names = {}
 
         neighbor_search = NeighborSearch(atom_list)
-        for metal in self.metals:
-            self.donors[metal] = []
+
+        def search_donors(metal, cutoff):
+            donors = []
             metal_coords = np.array((metal.x, metal.y, metal.z), dtype="d")
-            neighbor = neighbor_search.search(metal_coords, distance)
-            # print(neighbor)
-            # filter / remove metal and not donors from neighbor
+            neighbor = neighbor_search.search(metal_coords, cutoff)
+
             for atom in neighbor:
                 if (atom.element not in not_donors) and (atom.element not in metalList):
                     atom.beta = 40.00
-                    self.donors[metal].append(atom)
+                    donors.append(atom)
+            return donors
+
+        for metal in self.metals:
+            self.donors[metal] = search_donors(metal, distance)
+
+            if not self.donors[metal] and self.donor_dist_fallback is not None:
+                self.donors[metal] = search_donors(
+                    metal,
+                    self.donor_dist_fallback,
+                )
+
             if not self.donors[metal]:
                 ligands_names[metal] = "-"
             else:
                 temp = []
                 for lig in self.donors[metal]:
                     temp.append(f"{lig.aa}_{lig.resid}_{lig.chain}")
-                    ligands_names[metal] = list(set(temp))
-            #! DEBUG =====================
-            # for x in self.donors[metal]:
-            #     print(vars(x))
-            #! ===========================
+                ligands_names[metal] = list(set(temp))
+
         return ligands_names
 
     def findSites(self, ligands_names):
@@ -364,11 +375,18 @@ class SourcePDB:
 # ===============================================================================
 
 
-def getSitesFromPdbFile(pathPdb, metalID=None, maxDist=5.0, no_dinuclear=False):
+def getSitesFromPdbFile(
+    pathPdb, metalID=None, maxDist=5.0, no_dinuclear=False, donor_dist_fallback=None
+):
     # ? create atom object
     protein = MyProtein.MyProtein(pathPdb)
     atoms = protein.atoms_raw
-    sourcePDB = SourcePDB(pathPdb, maxDist, no_dinuclear=no_dinuclear)
+    sourcePDB = SourcePDB(
+        pathPdb,
+        maxDist,
+        no_dinuclear=no_dinuclear,
+        donor_dist_fallback=donor_dist_fallback,
+    )
     try:
         sourcePDB.findSitesInPDB(atoms_list=atoms)
         if metalID:

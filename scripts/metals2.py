@@ -21,6 +21,7 @@ if __name__ == "__main__":
             rmPdb,
             scoreOnly,
             noDinuclear,
+            donorDist,
         ) = processCommandLineArguments(sys.argv)
         print("Ready to go.\n")
 
